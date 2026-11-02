@@ -1,0 +1,29 @@
+# SPDX-License-Identifier: MIT
+name: release
+
+on:
+  workflow_run:
+    workflows: [check]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main') ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push' &&
+       github.event.workflow_run.head_branch == 'main' &&
+       github.event.workflow_run.head_repository.full_name == github.repository)
+    permissions:
+      contents: write
+      actions: write
+    uses: nix-purifiers/nix-purifiers.github.io/.github/workflows/purifier-release.yml@863546efefc5e4c132367bb8448e1a4bd9bec6a6
+    with:
+      infrastructure_ref: 863546efefc5e4c132367bb8448e1a4bd9bec6a6
+      sha: ${{ github.event.workflow_run.head_sha || github.sha }}
+      kind: source
+      series: '0.1'

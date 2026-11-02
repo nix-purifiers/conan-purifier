@@ -1,0 +1,94 @@
+{
+  "activeProfile": "x86_64-linux:Debug",
+  "contentHash": "418733e39317c31a5331f99976b20f58cb69398bbe95d1247af3f08b86f7fd4a",
+  "inputs": [
+    {
+      "hash": "d0ea2213bbac00a37c3c2c01f1dc9793a4b5433a5bb1cc66909807195a45f332",
+      "path": "conanfile.py"
+    },
+    {
+      "hash": null,
+      "path": "conanfile.txt"
+    },
+    {
+      "hash": null,
+      "path": "conandata.yml"
+    }
+  ],
+  "manifests": {
+    "conanfile.py": "from conan import ConanFile\nfrom conan.tools.cmake import CMake\n\n\nclass LockedExample(ConanFile):\n    settings = \"os\", \"arch\", \"compiler\", \"build_type\"\n    requires = \"fmt/11.2.0\"\n    generators = \"CMakeDeps\", \"CMakeToolchain\"\n\n    def build(self):\n        cmake = CMake(self)\n        cmake.configure()\n        cmake.build()\n"
+  },
+  "nativeHash": "10a3032f2be3b8f67740fb3541299fdd239566d9568e775cf4829caf6e5abff9",
+  "nativeLock": "{\n  \"build_requires\": [],\n  \"config_requires\": [],\n  \"python_requires\": [],\n  \"requires\": [\n    \"fmt/11.2.0#15c2efeeecd75ba2fb9dafbec8dfa4cc\"\n  ],\n  \"version\": \"0.5\"\n}\n",
+  "profiles": {
+    "x86_64-linux:Debug": {
+      "buildProfile": "[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=gnu20\ncompiler.libcxx=libstdc++11\ncompiler.version=16\nos=Linux\n\n[conf]\ntools.system.package_manager:mode=report\n",
+      "buildType": "Debug",
+      "entries": [
+        {
+          "hash": "sha256-ID606KoNdGxi2PkD31jgQZ43UVkbtT/5cQluqg69TsM=",
+          "mirrors": [],
+          "path": "profiles/x86_64-linux/Debug/assets/f7a4e611fb183563a6ef20ea077b8c3ea5b9e04f2ddbfe65710b1ccd07fc479c.archive",
+          "url": "https://github.com/fmtlib/fmt/releases/download/11.2.0/fmt-11.2.0.zip"
+        }
+      ],
+      "nativeLock": "{\n  \"build_requires\": [],\n  \"config_requires\": [],\n  \"python_requires\": [],\n  \"requires\": [\n    \"fmt/11.2.0#15c2efeeecd75ba2fb9dafbec8dfa4cc\"\n  ],\n  \"version\": \"0.5\"\n}\n",
+      "profile": "[settings]\narch=x86_64\nbuild_type=Debug\ncompiler=gcc\ncompiler.cppstd=gnu20\ncompiler.libcxx=libstdc++11\ncompiler.version=16\nos=Linux\n\n[conf]\ntools.system.package_manager:mode=report\n",
+      "recipeArchive": "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",
+      "recipeArchiveHash": "sha256-U1X24R+qSRrH3rFjUvnCmJDWDzUkSlO7wMWE+/bKnVQ=",
+      "recipeRefs": [
+        "fmt/11.2.0#15c2efeeecd75ba2fb9dafbec8dfa4cc"
+      ],
+      "settings": {
+        "arch": "x86_64",
+        "build_type": "Debug",
+        "compiler": "gcc",
+        "compiler.cppstd": "gnu20",
+        "compiler.libcxx": "libstdc++11",
+        "compiler.version": "16",
+        "os": "Linux"
+      },
+      "system": "x86_64-linux",
+      "toolVersions": {
+        "compiler": "16.2.0",
+        "conan": "2.32.0",
+        "resolver": "1d40f42b23120aee389ee4c2f2b7d3bb3e42c0a34d46dc0949ae955f0df9a0ff"
+      }
+    },
+    "x86_64-linux:Release": {
+      "buildProfile": "[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=gnu20\ncompiler.libcxx=libstdc++11\ncompiler.version=16\nos=Linux\n\n[conf]\ntools.system.package_manager:mode=report\n",
+      "buildType": "Release",
+      "entries": [
+        {
+          "hash": "sha256-ID606KoNdGxi2PkD31jgQZ43UVkbtT/5cQluqg69TsM=",
+          "mirrors": [],
+          "path": "profiles/x86_64-linux/Release/assets/f7a4e611fb183563a6ef20ea077b8c3ea5b9e04f2ddbfe65710b1ccd07fc479c.archive",
+          "url": "https://github.com/fmtlib/fmt/releases/download/11.2.0/fmt-11.2.0.zip"
+        }
+      ],
+      "nativeLock": "{\n  \"build_requires\": [],\n  \"config_requires\": [],\n  \"python_requires\": [],\n  \"requires\": [\n    \"fmt/11.2.0#15c2efeeecd75ba2fb9dafbec8dfa4cc\"\n  ],\n  \"version\": \"0.5\"\n}\n",
+      "profile": "[settings]\narch=x86_64\nbuild_type=Release\ncompiler=gcc\ncompiler.cppstd=gnu20\ncompiler.libcxx=libstdc++11\ncompiler.version=16\nos=Linux\n\n[conf]\ntools.system.package_manager:mode=report\n",
+      "recipeArchive": "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",
+      "recipeArchiveHash": "sha256-U1X24R+qSRrH3rFjUvnCmJDWDzUkSlO7wMWE+/bKnVQ=",
+      "recipeRefs": [
+        "fmt/11.2.0#15c2efeeecd75ba2fb9dafbec8dfa4cc"
+      ],
+      "settings": {
+        "arch": "x86_64",
+        "build_type": "Release",
+        "compiler": "gcc",
+        "compiler.cppstd": "gnu20",
+        "compiler.libcxx": "libstdc++11",
+        "compiler.version": "16",
+        "os": "Linux"
+      },
+      "system": "x86_64-linux",
+      "toolVersions": {
+        "compiler": "16.2.0",
+        "conan": "2.32.0",
+        "resolver": "1d40f42b23120aee389ee4c2f2b7d3bb3e42c0a34d46dc0949ae955f0df9a0ff"
+      }
+    }
+  },
+  "version": 1
+}

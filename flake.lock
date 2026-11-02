@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1793341285,
+        "narHash": "sha256-Y1CiZ4SoBUjLQyQM/pY+rS2dXD3CHLPstF0lmOc73D4=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "1c89083e451e891152365b799595cf7790a43325",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "purifier": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793613558,
+        "narHash": "sha256-tmPn6XYeRxFeSzPdnuHQgjzsw5MCCrUytw1nidagMpM=",
+        "owner": "nix-purifiers",
+        "repo": "purifier",
+        "rev": "12b73a5e2785fc19d5013a84820dce0d036d7fbe",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-purifiers",
+        "repo": "purifier",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "purifier": "purifier"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

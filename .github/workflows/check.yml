@@ -1,0 +1,45 @@
+name: check
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - name: Capture the native example profiles
+        run: |
+          nix build .#cli --out-link cli-native
+          cli-native/bin/conan-purifier --project examples/minimal lock
+          cli-native/bin/conan-purifier --project examples/minimal --build-type Debug lock
+      - uses: actions/upload-artifact@v4
+        with:
+          name: native-profiles-${{ matrix.runner }}
+          path: |
+            examples/minimal/conan.lock
+            examples/minimal/conan-purifier.lock.json
+      - run: python3 tests/eval-errors.py
+      - run: nix flake check -L
+      - run: tests/conformance-rebuild.sh
+  conformance:
+    name: conformance-${{ matrix.case }} (${{ matrix.runner }})
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-latest, ubuntu-24.04-arm]
+        case: [relock, update, external, native, debug]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: python3 tests/host-conformance.py "${{ matrix.case }}"

@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+*.log
+result
+native-sdk
+cli-native
+.conan-purifier/
+examples/minimal/build/
+examples/minimal/build-debug/
+examples/minimal/install.json
+examples/minimal/CMakeUserPresets.json

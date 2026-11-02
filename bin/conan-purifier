@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: MIT
+import subprocess, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib/conan-purifier"))
+from conan_purifier.cli import main
+
+try:
+    main()
+except subprocess.CalledProcessError as error:
+    sys.exit(error.returncode)
+except (OSError, ValueError) as error:
+    print("conan-purifier: " + str(error), file=sys.stderr)
+    sys.exit(1)
