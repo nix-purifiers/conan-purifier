@@ -16,11 +16,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
-      - name: Capture the native example profiles
-        run: |
-          nix build .#cli --out-link cli-native
-          cli-native/bin/conan-purifier --project examples/minimal lock
-          cli-native/bin/conan-purifier --project examples/minimal --build-type Debug lock
       - uses: actions/upload-artifact@v4
         with:
           name: native-profiles-${{ matrix.runner }}
