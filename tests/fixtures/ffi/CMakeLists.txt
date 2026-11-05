@@ -1,0 +1,7 @@
+cmake_minimum_required(VERSION 3.20)
+project(foreign_proof CXX)
+find_package(fmt CONFIG REQUIRED)
+add_library(proof SHARED proof.cpp)
+target_link_libraries(proof PRIVATE fmt::fmt)
+install(TARGETS proof LIBRARY DESTINATION lib)
+install(FILES proof.h DESTINATION include)

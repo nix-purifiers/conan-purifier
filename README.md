@@ -130,6 +130,33 @@ The SDK targets x86_64-linux and aarch64-linux. Build hooks must work
 offline; provide additional build tools/libraries through the Nix builder
 when needed. OS package managers only report requirements.
 
+## Native libraries and installed resources
+
+Declare public installed shared libraries with `nativeLibraries`, for example
+`nativeLibraries.proof = "lib/libproof.so";`. Use the host platform shared-library
+suffix for portable packaging. `nativeIncludeDirectories = [ "include" ];`
+records public header directories. The result and `packages.project` expose
+`projections.native`, `python-ffi`, and `java-ffi`, using the shared binary ABI
+validator and native loader interfaces. Only deliberately exported C interfaces
+should be selected; the adapter does not infer symbol signatures or convert
+C++ classes into a foreign ABI. Runtime libraries must remain in the producer's
+Nix closure.
+
+`resourceRoots` maps public resource paths to installed producer paths; for
+example `resourceRoots."proof.h" = "include/proof.h";`. Its `resources`, `web`,
+and `java-resources` projections expose `.directory`, `.documentRoot` and
+`.classPath`. Optional `resourceDependencies` and `resourceSchema` use the
+shared resource bundle contract. Selections default to empty, and do not
+publish source/configuration files automatically. Schema format/entrypoints
+are caller declarations; this builder does not infer or compile an IDL.
+
+The consumer check builds an actual C API shared target against the locked
+fmt dependency. Ordinary Python ctypes, Python cffi reading the public
+header, and Java FFM call the function; dladdr independently checks its origin.
+The selected header is also loaded through ordinary HTTP and Java resources.
+Java21 uses preview FFM flags. No additional target/platform coverage or
+language-specific binding package is implied.
+
 ## Credits
 
 The purifier idea was inspired by nixcloud's

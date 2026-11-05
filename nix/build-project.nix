@@ -18,6 +18,11 @@
   conanLock ? src + "/conan.lock",
   buildType ? "Release",
   fetchers ? { },
+  nativeLibraries ? { },
+  nativeIncludeDirectories ? [ ],
+  resourceRoots ? { },
+  resourceDependencies ? [ ],
+  resourceSchema ? null,
   nativeBuildInputs ? [ ],
   cmakeFlags ? [ ],
   buildCommand ? ''
@@ -71,7 +76,7 @@ let
     inherit src;
     filter = srcFilter;
   };
-  project =
+  builtProject =
     runCommand "purified-conan-project" { nativeBuildInputs = [ toolchain ] ++ nativeBuildInputs; }
       ''
         export HOME="$TMPDIR/user-home" XDG_CACHE_HOME="$TMPDIR/xdg"
@@ -91,6 +96,29 @@ let
         ${nativeConan}/bin/conan install . --no-remote --build=never --profile:host=purifier --profile:build=purifier-build --lockfile=${environment}/conan.lock --output-folder=generated
         ${buildCommand}
       '';
+  projections =
+    lib.optionalAttrs (nativeLibraries != { }) (
+      purifier.nativeProjections {
+        producer = builtProject;
+        libraries = nativeLibraries;
+        includeDirectories = nativeIncludeDirectories;
+        system = stdenv.hostPlatform.system;
+        targetMetadata.tool = "conan";
+        inherit runCommand python3;
+      }
+    )
+    // lib.optionalAttrs (resourceRoots != { }) (
+      purifier.resourceProjections {
+        producer = builtProject;
+        roots = resourceRoots;
+        dependencies = resourceDependencies;
+        schema = resourceSchema;
+        inherit runCommand python3;
+      }
+    );
+  project = builtProject // {
+    inherit projections;
+  };
   release =
     assert lock.problems == [ ];
     runCommand "conan-project-release"
@@ -115,6 +143,6 @@ in
     default = project;
   };
   tests = project;
-  inherit release;
+  inherit release projections;
   fetches = lock.entries;
 }

@@ -8,6 +8,10 @@ let
   };
 in
 {
+  foreign-projections = import ./foreign.nix {
+    inherit pkgs;
+    build = pkgs.conan-purifier.buildConanProject;
+  };
   cli = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
   environment = release.packages.environment;
   project = release.tests;
