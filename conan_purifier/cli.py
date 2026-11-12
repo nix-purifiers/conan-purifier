@@ -278,7 +278,7 @@ def checked(root, native, companion, build_type):
 
 
 def realize(root, native, companion, build_type, target):
-    definition = Path(__file__).resolve().parents[1] / "nix/realize.nix"
+    definition = Path(__file__).resolve().parents[1] / "pkgs/build-conan-project/realize.nix"
     args = [
         "nix",
         "build",

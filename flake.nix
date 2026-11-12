@@ -20,7 +20,7 @@
       forAll = nixpkgs.lib.genAttrs systems;
       overlay = final: prev: {
         conan-purifier = final.lib.makeScope final.newScope (scope: {
-          nativeConan = scope.callPackage ./nix/conan.nix { };
+          nativeConan = scope.callPackage ./pkgs/build-conan-project/conan.nix { };
           toolchain = final.buildEnv {
             name = "conan-purifier-toolchain";
             paths = [
@@ -40,11 +40,11 @@
               final.bash
             ];
           };
-          cli = scope.callPackage ./nix/cli.nix {
+          cli = scope.callPackage ./pkgs/cli/default.nix {
             nixpkgsSrc = nixpkgs;
             purifierSrc = purifier;
           };
-          buildConanProject = scope.callPackage ./nix/build-project.nix {
+          buildConanProject = scope.callPackage ./pkgs/build-conan-project/default.nix {
             purifier = import (purifier + "/nix/lib") { inherit (final) lib; };
           };
         });
@@ -63,7 +63,7 @@
         default = (pkgsFor system).conan-purifier.cli;
         cli = self.packages.${system}.default;
       });
-      lib.conan-purifier.readLock = import ./nix/read-lock.nix { lib = nixpkgs.lib; };
+      lib.conan-purifier = (nixpkgs.lib.extend (import ./lib-overlays/default)).conan-purifier;
       apps = forAll (system: {
         default = {
           type = "app";
