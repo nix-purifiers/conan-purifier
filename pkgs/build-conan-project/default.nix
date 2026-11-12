@@ -47,7 +47,7 @@
 }:
 let
   lock = purifier.checkLock (
-    import ./read-lock.nix { inherit lib; } { inherit src lockFile conanLock; }
+    import ../../lib-overlays/default/read-lock.nix { inherit lib; } { inherit src lockFile conanLock; }
   );
   environment =
     import ./environment.nix
@@ -81,11 +81,11 @@ let
       ''
         export HOME="$TMPDIR/user-home" XDG_CACHE_HOME="$TMPDIR/xdg"
         export CONAN_HOME="$TMPDIR/conan" CONAN_PURIFIER_HOME="$TMPDIR/conan"
-        export CONAN_PURIFIER_HOOKS=${../conan_purifier}
+        export CONAN_PURIFIER_HOOKS=${../../conan_purifier}
         export PYTHONDONTWRITEBYTECODE=1 SOURCE_DATE_EPOCH=1
         export CC=${stdenv.cc}/bin/gcc CXX=${stdenv.cc}/bin/g++
         mkdir -p "$HOME" "$CONAN_HOME/extensions/commands" "$CONAN_HOME/profiles" project
-        cp ${../conan_purifier/cmd_purifier.py} "$CONAN_HOME/extensions/commands/cmd_purifier.py"
+        cp ${../../conan_purifier/cmd_purifier.py} "$CONAN_HOME/extensions/commands/cmd_purifier.py"
         cp ${environment}/profile "$CONAN_HOME/profiles/purifier"
         cp ${environment}/build-profile "$CONAN_HOME/profiles/purifier-build"
         ${nativeConan}/bin/conan purifier hydrate --environment ${environment}

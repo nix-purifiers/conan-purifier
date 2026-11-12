@@ -16,14 +16,14 @@
 stdenvNoCC.mkDerivation {
   pname = "conan-purifier";
   version = "0.1.0";
-  src = ../.;
+  src = ../..;
   nativeBuildInputs = [ makeWrapper ];
   dontBuild = true;
   installPhase = ''
     mkdir -p "$out/bin" "$out/lib/conan-purifier"
-    cp -r conan_purifier nix "$out/lib/conan-purifier/"
+    cp -r conan_purifier pkgs lib-overlays "$out/lib/conan-purifier/"
     install -m755 bin/conan-purifier "$out/bin/conan-purifier"
-    substituteInPlace "$out/lib/conan-purifier/nix/realize.nix" \
+    substituteInPlace "$out/lib/conan-purifier/pkgs/build-conan-project/realize.nix" \
       --replace-fail '@nixpkgs@' '${nixpkgsSrc}' \
       --replace-fail '@purifier@' '${purifierSrc}' \
       --replace-fail '@runtime@' "$out"

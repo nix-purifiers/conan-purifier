@@ -34,7 +34,7 @@ let
     lockFile = /. + lockFile;
     conanLock = /. + conanLock;
   };
-  lock = import ./read-lock.nix { inherit (pkgs) lib; } args;
+  lock = import ../../lib-overlays/default/read-lock.nix { inherit (pkgs) lib; } args;
 in
 if target == "environment" then
   pkgs.callPackage ./environment.nix { inherit purifier nativeConan toolchain; } {
@@ -43,7 +43,7 @@ if target == "environment" then
 else if target == "runtime" then
   pkgs.runCommand "conan-purifier-runtime" { } ''ln -s @runtime@ "$out"''
 else if target == "release" then
-  (pkgs.callPackage ./build-project.nix { inherit purifier nativeConan toolchain; } (
+  (pkgs.callPackage ./default.nix { inherit purifier nativeConan toolchain; } (
     args // { inherit buildType; }
   )).release
 else
